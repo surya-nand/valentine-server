@@ -30,4 +30,25 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = {createUser}
+const fetchUser = async(req,res) => {
+  try {
+    const { userId } = req.params;
+    const user = await valentineUser.findById(userId);
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+    res.status(200).send({
+      message: "User fetched successfully",
+      details: user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Failed to fetch user",
+      error: error,
+    });
+  }
+}
+
+module.exports = {createUser, fetchUser}
